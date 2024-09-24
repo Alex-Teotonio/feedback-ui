@@ -104,14 +104,12 @@ const FeedbackCard = ({
       setIsDeleting(false);
     }
   };
-
-  console.log(feedback, user);
   const fetchComentarios = async () => {
     setLoadingComentarios(true);
     setErrorComentarios("");
     try {
       const res = await fetch(
-        `http://localhost:3005/api/feedback/${feedback._id}/comentarios`,
+        `${process.env.NEXT_PUBLIC_API_URL}/${feedback._id}/comentarios`,
         {
           method: "GET",
           headers: {
@@ -147,7 +145,7 @@ const FeedbackCard = ({
   const handleDeleteComentario = async (id: string) => {
     try {
       const res = await fetch(
-        `http://localhost:3005/api/feedback/comentarios/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/comentarios/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -167,31 +165,32 @@ const FeedbackCard = ({
       alert(error.message || "Erro ao deletar comentário.");
     }
   };
-
   return (
     <Card shadow="sm" className="h-full">
-      <div className="flex justify-end mt-2 mr-2">
-        <Button
-          isIconOnly
-          size="sm"
-          color="default"
-          aria-label="Editar"
-          onPress={onOpen}
-          className="mr-2"
-        >
-          <FaPen />
-        </Button>
-        <Button
-          isIconOnly
-          size="sm"
-          color="default"
-          aria-label="Deletar"
-          onClick={handleDelete}
-          disabled={isDeleting}
-        >
-          {isDeleting ? <Spinner size="lg" /> : <FaTrash />}
-        </Button>
-      </div>
+      {user?._id === feedback.id_usuario && (
+        <div className="flex justify-end mt-2 mr-2">
+          <Button
+            isIconOnly
+            size="sm"
+            color="default"
+            aria-label="Editar"
+            onPress={onOpen}
+            className="mr-2"
+          >
+            <FaPen />
+          </Button>
+          <Button
+            isIconOnly
+            size="sm"
+            color="default"
+            aria-label="Deletar"
+            onClick={handleDelete}
+            disabled={isDeleting}
+          >
+            {isDeleting ? <Spinner size="lg" /> : <FaTrash />}
+          </Button>
+        </div>
+      )}
       <CardHeader>
         <p className="text-xl font-semibold">{feedback.titulo}</p>
       </CardHeader>
@@ -205,7 +204,8 @@ const FeedbackCard = ({
                   <img
                     src={`http://localhost:3005${sanitizeUrl(item.url)}`}
                     alt={`Mídia ${index + 1}`}
-                    className="w-full h-auto rounded max-w-md max-h-48 object-cover"
+                    className="w-48
+                     h-auto rounded max-w-md max-h-48 object-cover"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
                         "/fallback-image.png";

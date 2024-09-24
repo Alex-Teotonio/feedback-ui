@@ -128,8 +128,6 @@ export default function Login() {
             }
             className="text-gray-700"
           />
-
-          {/* Mensagens de Erro e Sucesso */}
           {error && (
             <>
               <Spacer y={0.5} />
@@ -145,7 +143,6 @@ export default function Login() {
 
           <Spacer y={1} />
 
-          {/* Botão de Login */}
           <Button
             onClick={handleLogin}
             disabled={!email || !senha}

@@ -3,7 +3,6 @@
 
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useRouter } from "next/navigation";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import {
   Spinner,
@@ -33,21 +32,23 @@ export default function Dashboard() {
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-
-  const router = useRouter();
-
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const idUsuario = user?._id;
+
   const fetchFeedbacks = async () => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/home`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/meus-feedbacks/${idUsuario}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.ok) {
         const data: Feedback[] = await res.json();
@@ -137,36 +138,22 @@ export default function Dashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleNavigationFeedback = async () => {
-    router.push("/meus-feedbacks");
-  };
-
   return (
     <ProtectedRoute>
       <div className="p-4">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-bold">Dashboard</h1>
-          <div className="flex flex-wrap gap-4 items-center">
-            <Button
-              onClick={fetchFeedbacks}
-              disabled={loading}
-              variant="bordered"
-              color="primary"
-            >
-              Atualizar
-            </Button>
-
-            <Button
-              onClick={handleNavigationFeedback}
-              variant="bordered"
-              color="secondary"
-            >
-              Meus Feedbacks
-            </Button>
-            <Button onPress={onOpen} color="primary" variant="flat">
-              Adicionar Feedback
-            </Button>
-          </div>
+          <h1 className="text-3xl font-bold">Meus Feedbacks</h1>
+          <Button
+            onClick={fetchFeedbacks}
+            disabled={loading}
+            variant="faded"
+            color="default"
+          >
+            Atualizar
+          </Button>
+          <Button onPress={onOpen} color="primary">
+            Adicionar Feedback
+          </Button>
 
           <Modal
             isOpen={isOpen}
