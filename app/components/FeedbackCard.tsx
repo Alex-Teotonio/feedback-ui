@@ -192,7 +192,10 @@ const FeedbackCard = ({
         </div>
       )}
       <CardHeader>
-        <p className="text-xl font-semibold">{feedback.titulo}</p>
+        <div className="flex flex-col">
+          <p className="text-xl font-semibold">{feedback.loja}</p>
+          <p className="text-xl font-semibold">{feedback.titulo}</p>
+        </div>
       </CardHeader>
       <CardBody className="flex-grow">
         <p>{feedback.descricao}</p>
@@ -222,8 +225,6 @@ const FeedbackCard = ({
             ))}
           </div>
         )}
-
-        {/* Seção de Comentários */}
         <div className="mt-4">
           <h3 className="text-lg font-semibold mb-2">Comentários:</h3>
           {loadingComentarios ? (
@@ -253,7 +254,6 @@ const FeedbackCard = ({
       </CardBody>
 
       <CardFooter className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
-        <span className="text-sm text-gray-300">Loja: {feedback.loja}</span>
         <div className="flex items-center mt-2 sm:mt-0">
           <Button
             isIconOnly
