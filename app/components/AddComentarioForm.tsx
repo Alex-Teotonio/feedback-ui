@@ -32,7 +32,7 @@ const AddComentarioForm = ({
 
     try {
       const res = await fetch(
-        `http://localhost:3005/api/comentarios/${feedbackId}`,
+        `http://localhost:3005/api/feedback/comentarios/${feedbackId}`,
         {
           method: "POST",
           headers: {

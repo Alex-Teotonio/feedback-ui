@@ -50,7 +50,7 @@ const ComentarioCard = ({ comentario, onDelete }: ComentarioCardProps) => {
           </Button>
         )}
       </div>
-      <p className="text-sm text-gray-600">{comentario.texto}</p>
+      <p className="text-sm text-gray-300">{comentario.texto}</p>
       <span className="text-xs text-gray-400">
         {new Date(comentario.createdAt).toLocaleString()}
       </span>

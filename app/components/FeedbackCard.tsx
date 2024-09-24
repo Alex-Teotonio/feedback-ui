@@ -1,4 +1,5 @@
 // components/FeedbackCard.tsx
+
 "use client";
 
 import {
@@ -14,9 +15,12 @@ import {
   ModalContent,
 } from "@nextui-org/react";
 import { HeartIcon } from "./HeartIcon";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FaTrash, FaPen } from "react-icons/fa";
 import EditFeedbackForm from "./EditFeedbackForm";
+import ComentarioCard from "./ComentarioCard";
+import AddComentarioForm from "./AddComentarioForm";
+import { AuthContext } from "../context/AuthContext";
 
 interface Feedback {
   _id: string;
@@ -25,9 +29,16 @@ interface Feedback {
   loja: string;
   produto: string;
   curtidas: number;
-  createdAt: string;
-  id_usuario: string;
   midia: Array<{ url: string; type: string }>;
+  id_usuario: string;
+  createdAt: string;
+}
+
+interface Comentario {
+  _id: string;
+  id_usuario: string;
+  texto: string;
+  createdAt: string;
 }
 
 export const sanitizeUrl = (url: string) => {
@@ -47,6 +58,7 @@ const FeedbackCard = ({
   onDelete,
   onFetchFeedback,
 }: FeedbackCardProps) => {
+  const { token, user } = useContext(AuthContext);
   const [isLiking, setIsLiking] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [message, setMessage] = useState<{
@@ -55,11 +67,16 @@ const FeedbackCard = ({
   } | null>(null);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  // Estados para comentários
+  const [comentarios, setComentarios] = useState<Comentario[]>([]);
+  const [loadingComentarios, setLoadingComentarios] = useState<boolean>(true);
+  const [errorComentarios, setErrorComentarios] = useState<string>("");
+
   const handleLike = async () => {
     setIsLiking(true);
     setMessage(null);
     try {
-      console.log(feedback);
       await onLike(feedback._id);
       setMessage({ type: "success", text: "Curtida realizada com sucesso!" });
     } catch (error: any) {
@@ -87,6 +104,70 @@ const FeedbackCard = ({
       setIsDeleting(false);
     }
   };
+
+  console.log(feedback, user);
+  const fetchComentarios = async () => {
+    setLoadingComentarios(true);
+    setErrorComentarios("");
+    try {
+      const res = await fetch(
+        `http://localhost:3005/api/feedback/${feedback._id}/comentarios`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.ok) {
+        const data: Comentario[] = await res.json();
+        setComentarios(data);
+      } else {
+        const errorData = await res.json();
+        setErrorComentarios(errorData.message || "Erro ao obter comentários.");
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorComentarios("Erro de conexão.");
+    } finally {
+      setLoadingComentarios(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchComentarios();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleComentarioAdded = () => {
+    fetchComentarios();
+  };
+
+  const handleDeleteComentario = async (id: string) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3005/api/feedback/comentarios/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.ok) {
+        fetchComentarios();
+      } else {
+        const errorData = await res.json();
+        alert(errorData.message || "Erro ao deletar comentário.");
+      }
+    } catch (error: any) {
+      console.error("Erro ao deletar comentário:", error);
+      alert(error.message || "Erro ao deletar comentário.");
+    }
+  };
+
   return (
     <Card shadow="sm" className="h-full">
       <div className="flex justify-end mt-2 mr-2">
@@ -94,8 +175,9 @@ const FeedbackCard = ({
           isIconOnly
           size="sm"
           color="default"
-          aria-label="Deletar"
+          aria-label="Editar"
           onPress={onOpen}
+          className="mr-2"
         >
           <FaPen />
         </Button>
@@ -131,15 +213,43 @@ const FeedbackCard = ({
                   />
                 ) : (
                   <video
-                    src={item.url}
+                    src={`http://localhost:3005${sanitizeUrl(item.url)}`}
                     controls
-                    className="w-full h-auto rounded"
+                    className="w-full h-auto rounded max-w-md max-h-48 object-cover"
                   />
                 )}
               </div>
             ))}
           </div>
         )}
+
+        {/* Seção de Comentários */}
+        <div className="mt-4">
+          <h3 className="text-lg font-semibold mb-2">Comentários:</h3>
+          {loadingComentarios ? (
+            <Spinner size="sm" />
+          ) : errorComentarios ? (
+            <div className="text-red-500 text-sm">{errorComentarios}</div>
+          ) : comentarios.length === 0 ? (
+            <div className="text-gray-500 text-sm">
+              Nenhum comentário ainda.
+            </div>
+          ) : (
+            comentarios.map((comentario) => (
+              <ComentarioCard
+                key={comentario._id}
+                comentario={comentario}
+                onDelete={handleDeleteComentario}
+              />
+            ))
+          )}
+          <div className="mt-4">
+            <AddComentarioForm
+              feedbackId={feedback._id}
+              onComentarioAdded={handleComentarioAdded}
+            />
+          </div>
+        </div>
       </CardBody>
 
       <CardFooter className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
