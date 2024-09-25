@@ -40,7 +40,7 @@ interface Feedback {
 }
 
 export default function Dashboard() {
-  const { token, user } = useContext(AuthContext);
+  const { token, user, logout } = useContext(AuthContext);
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
@@ -73,6 +73,11 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    router.push("/");
   };
 
   const handleLike = async (id: string) => {
@@ -182,6 +187,9 @@ export default function Dashboard() {
             </Button>
             <Button color="primary" variant="flat" onPress={onOpen}>
               Adicionar Feedback
+            </Button>
+            <Button color="danger" variant="bordered" onClick={handleLogout}>
+              Logout
             </Button>
           </div>
 

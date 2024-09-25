@@ -10,6 +10,7 @@ import {
   useDisclosure,
   ModalContent,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 import { AuthContext } from "../context/AuthContext";
 import ProtectedRoute from "../../components/ProtectedRoute";
@@ -36,6 +37,8 @@ export default function Dashboard() {
   const [error, setError] = useState<string>("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const idUsuario = user?._id;
+
+  const router = useRouter();
 
   const fetchFeedbacks = async () => {
     setLoading(true);
@@ -162,6 +165,13 @@ export default function Dashboard() {
             </Button>
             <Button variant="flat" color="primary" onPress={onOpen}>
               Adicionar Feedback
+            </Button>
+            <Button
+              color="primary"
+              variant="bordered"
+              onClick={() => router.push("/dashboard")}
+            >
+              Página Inicial
             </Button>
           </div>
           <Modal
