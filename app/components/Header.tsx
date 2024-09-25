@@ -5,7 +5,6 @@ import { Navbar, NavbarBrand, NavbarContent, Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import styles from "./Header.module.css"; // Opcional: para estilização personalizada
 
 export default function Header() {
   const router = useRouter();
@@ -14,16 +13,12 @@ export default function Header() {
   return (
     <Navbar isBordered position="sticky" maxWidth="lg">
       <NavbarBrand>
-        {/* Substitua este <div> por um logo ou componente de marca se desejar */}
         <div>TrabalhoBD2</div>
       </NavbarBrand>
       <NavbarContent>
         {token ? (
           <>
-            {/* Utilizando um elemento <span> com estilização básica */}
-            <span className={styles.welcomeMessage}>
-              Bem-vindo, {user?.nome}
-            </span>
+            <span>Bem-vindo, {user?.nome}</span>
             <Button variant="flat" color="danger" size="md" onClick={logout}>
               Logout
             </Button>
