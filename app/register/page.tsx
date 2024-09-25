@@ -5,10 +5,10 @@ import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { Input, Button, Spacer, Card, CardBody } from "@nextui-org/react";
 import { AuthContext } from "../context/AuthContext";
-import { title } from "@/components/primitives";
+import { title, subtitle } from "@/components/primitives";
 import Link from "next/link";
 
-import { FaEnvelope, FaLock, FaTimesCircle } from "react-icons/fa";
+import { FaLock, FaTimesCircle } from "react-icons/fa";
 
 interface RegisterResponse {
   token: string;
@@ -76,11 +76,17 @@ export default function Register() {
 
   return (
     <div className="flex h-full w-full">
-      <div className="hidden md:flex w-1/2 justify-center items-center">
+      <div className="hidden md:flex w-1/2  flex-col justify-center items-center">
         <span className="font-bold ">
           <span className={title({ color: "violet" })}>Feed</span>
           <span className={title()}>Back</span>
         </span>
+        <div className={`${subtitle({ class: "mt-4" })} text-center max-w-lg`}>
+          <span>
+            Seu feedback importa! Junte-se a nós para explorar, curtir e
+            comentar as melhores avaliações de produtos!
+          </span>
+        </div>
       </div>
       <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-6">
         <Card isHoverable className="w-full max-w-md" radius="lg" shadow="lg">

@@ -14,7 +14,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { FaEnvelope, FaLock, FaTimesCircle } from "react-icons/fa";
-import { title } from "@/components/primitives";
+import { title, subtitle } from "@/components/primitives";
 import { AuthContext } from "../context/AuthContext";
 
 interface LoginResponse {
@@ -77,11 +77,17 @@ export default function Login() {
   return (
     <div className="flex h-full w-full">
       {/* Seção Esquerda */}
-      <div className="hidden md:flex w-1/2 justify-center items-center">
+      <div className="hidden md:flex w-1/2  flex-col justify-center items-center">
         <span className="font-bold ">
           <span className={title({ color: "violet" })}>Feed</span>
           <span className={title()}>Back</span>
         </span>
+        <div className={`${subtitle({ class: "mt-4" })} text-center max-w-lg`}>
+          <span>
+            Seu feedback importa! Junte-se a nós para explorar, curtir e
+            comentar as melhores avaliações de produtos!
+          </span>
+        </div>
       </div>
 
       {/* Seção Direita */}
