@@ -43,7 +43,7 @@ export default function Register() {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}}/usuarios/cadastro`,
+        `${process.env.NEXT_PUBLIC_API_URL}/usuarios/cadastro`,
         {
           method: "POST",
           headers: {
