@@ -15,6 +15,7 @@ import { AuthContext } from "../context/AuthContext";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import FeedbackCard from "../components/FeedbackCard";
 import AddFeedbackForm from "../components/AddFeedbackForm";
+import { title } from "@/components/primitives";
 
 interface Feedback {
   _id: string;
@@ -146,7 +147,10 @@ export default function Dashboard() {
     <ProtectedRoute>
       <div className="p-4">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-bold">Meus Feedbacks</h1>
+          <span className="font-bold ">
+            <span className={title({ color: "violet", size: "sm" })}>Feed</span>
+            <span className={title({ size: "sm" })}>Back</span>
+          </span>
           <Button
             color="default"
             disabled={loading}
@@ -190,7 +194,7 @@ export default function Dashboard() {
             Nenhum feedback encontrado.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4">
             {feedbacks.map((feedback) => (
               <FeedbackCard
                 key={feedback._id}
