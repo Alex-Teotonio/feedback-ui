@@ -34,7 +34,7 @@ const AddComentarioForm = ({
 
     try {
       const res = await fetch(
-        `http://localhost:3005/api/feedback/comentarios/${feedbackId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/comentarios/${feedbackId}`,
         {
           method: "POST",
           headers: {
@@ -42,7 +42,7 @@ const AddComentarioForm = ({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ texto }),
-        },
+        }
       );
 
       if (res.ok) {
