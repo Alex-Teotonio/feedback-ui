@@ -36,6 +36,12 @@ const AddFeedbackForm = ({
     }
 
     const formData = new FormData();
+    if (!user || !user._id) {
+      setError("Usuário não autenticado.");
+      setLoading(false);
+      return;
+    }
+
     const id_usuario = user._id;
 
     formData.append("loja", loja);
