@@ -213,13 +213,13 @@ const FeedbackCard = ({
                     alt={`Mídia ${index + 1}`}
                     className="w-48
                      h-auto rounded max-w-md max-h-48 object-cover"
-                    src={`${process.env.NEXT_PUBLIC_API_URL}${sanitizeUrl(item.url)}`}
+                    src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}${sanitizeUrl(item.url)}`}
                   />
                 ) : (
                   <video
                     controls
                     className="w-full h-auto rounded max-w-md max-h-48 object-cover"
-                    src={`${process.env.NEXT_PUBLIC_API_URL}${sanitizeUrl(item.url)}`}
+                    src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}${sanitizeUrl(item.url)}`}
                   />
                 )}
               </div>
