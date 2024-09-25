@@ -18,6 +18,13 @@ import FeedbackCard from "../components/FeedbackCard";
 import { title } from "@/components/primitives";
 import AddFeedbackForm from "../components/AddFeedbackForm";
 
+interface Usuario {
+  id: string;
+  email: string;
+  senha: string;
+  nome: string;
+}
+
 interface Feedback {
   _id: string;
   titulo: string;
@@ -28,6 +35,8 @@ interface Feedback {
   midia: [];
   id_usuario: string;
   createdAt: string;
+
+  usuario: Usuario;
 }
 
 export default function Dashboard() {
