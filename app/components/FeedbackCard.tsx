@@ -214,10 +214,6 @@ const FeedbackCard = ({
                     className="w-48
                      h-auto rounded max-w-md max-h-48 object-cover"
                     src={`${process.env.NEXT_PUBLIC_API_URL}${sanitizeUrl(item.url)}`}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src =
-                        "/fallback-image.png";
-                    }}
                   />
                 ) : (
                   <video
