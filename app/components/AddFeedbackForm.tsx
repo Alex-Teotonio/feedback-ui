@@ -36,7 +36,7 @@ const AddFeedbackForm = ({
     }
 
     const formData = new FormData();
-    const id_usuario = user?._id;
+    const id_usuario = user._id;
 
     formData.append("loja", loja);
     formData.append("produto", produto);
@@ -59,7 +59,7 @@ const AddFeedbackForm = ({
             Authorization: `Bearer ${token}`,
           },
           body: formData,
-        },
+        }
       );
 
       if (res.ok) {

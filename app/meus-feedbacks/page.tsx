@@ -48,7 +48,7 @@ export default function Dashboard() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       if (res.ok) {
@@ -61,7 +61,6 @@ export default function Dashboard() {
         setError(errorData.message || "Erro ao obter feedbacks.");
       }
     } catch (err) {
-      console.error(err);
       setError("Erro de conexão.");
     } finally {
       setLoading(false);
@@ -78,7 +77,7 @@ export default function Dashboard() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       if (res.ok) {
@@ -86,8 +85,8 @@ export default function Dashboard() {
 
         setFeedbacks((prevFeedbacks) =>
           prevFeedbacks.map((fb) =>
-            fb._id === id ? { ...fb, curtidas: updatedFeedback.curtidas } : fb,
-          ),
+            fb._id === id ? { ...fb, curtidas: updatedFeedback.curtidas } : fb
+          )
         );
       } else {
         const errorData = await res.json();
@@ -95,20 +94,17 @@ export default function Dashboard() {
         throw new Error(errorData.message || "Erro ao curtir feedback.");
       }
     } catch (err: any) {
-      console.error(err);
       throw err;
     }
   };
 
   const handleDelete = async (id: string) => {
     if (!id) {
-      console.error("Feedback ID is undefined.");
-
       return;
     }
 
     const confirmDelete = confirm(
-      "Tem certeza que deseja deletar este feedback?",
+      "Tem certeza que deseja deletar este feedback?"
     );
 
     if (!confirmDelete) return;
@@ -122,14 +118,13 @@ export default function Dashboard() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       if (res.ok) {
         const result = await res.json();
-
         setFeedbacks((prevFeedbacks) =>
-          prevFeedbacks.filter((fb) => fb._id !== id),
+          prevFeedbacks.filter((fb) => fb._id !== id)
         );
         alert("Feedback deletado com sucesso!");
       } else {
@@ -138,7 +133,6 @@ export default function Dashboard() {
         throw new Error(errorData.message || "Erro ao deletar feedback.");
       }
     } catch (err: any) {
-      console.error(err);
       alert(err.message || "Erro ao deletar feedback.");
     }
   };
