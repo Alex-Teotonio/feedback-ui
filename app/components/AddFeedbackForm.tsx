@@ -71,7 +71,6 @@ const AddFeedbackForm = ({
       if (res.ok) {
         const data = await res.json();
 
-        console.log("Feedback adicionado com sucesso:", data);
         setLoja("");
         setProduto("");
         setTitulo("");
