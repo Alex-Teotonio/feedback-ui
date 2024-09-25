@@ -151,18 +151,19 @@ export default function Dashboard() {
             <span className={title({ color: "violet", size: "sm" })}>Feed</span>
             <span className={title({ size: "sm" })}>Back</span>
           </span>
-          <Button
-            color="default"
-            disabled={loading}
-            variant="faded"
-            onClick={fetchFeedbacks}
-          >
-            Atualizar
-          </Button>
-          <Button color="primary" onPress={onOpen}>
-            Adicionar Feedback
-          </Button>
-
+          <div className="flex flex-wrap gap-4 items-center">
+            <Button
+              color="primary"
+              disabled={loading}
+              variant="bordered"
+              onClick={fetchFeedbacks}
+            >
+              Atualizar
+            </Button>
+            <Button variant="flat" color="primary" onPress={onOpen}>
+              Adicionar Feedback
+            </Button>
+          </div>
           <Modal
             isOpen={isOpen}
             placement="top-center"

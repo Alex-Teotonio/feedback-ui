@@ -163,7 +163,7 @@ export default function Dashboard() {
             <span className={title({ color: "violet", size: "sm" })}>Feed</span>
             <span className={title({ size: "sm" })}>Back</span>
           </span>
-          <div className="flex flex-wrap gap-4  items-center">
+          <div className="flex flex-wrap gap-4 items-center">
             <Button
               color="primary"
               disabled={loading}
