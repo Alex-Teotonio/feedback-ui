@@ -15,6 +15,7 @@ import {
 import { AuthContext } from "../context/AuthContext";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import FeedbackCard from "../components/FeedbackCard";
+import { title } from "@/components/primitives";
 import AddFeedbackForm from "../components/AddFeedbackForm";
 
 interface Feedback {
@@ -150,7 +151,10 @@ export default function Dashboard() {
     <ProtectedRoute>
       <div className="p-4">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <span className="font-bold ">
+            <span className={title({ color: "violet", size: "sm" })}>Feed</span>
+            <span className={title({ size: "sm" })}>Back</span>
+          </span>
           <div className="flex flex-wrap gap-4 items-center">
             <Button
               color="primary"

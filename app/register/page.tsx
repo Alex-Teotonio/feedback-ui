@@ -5,6 +5,7 @@ import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { Input, Button, Spacer, Card, CardBody } from "@nextui-org/react";
 import { AuthContext } from "../context/AuthContext";
+import { title } from "@/components/primitives";
 import Link from "next/link";
 
 import { FaEnvelope, FaLock, FaTimesCircle } from "react-icons/fa";
@@ -74,105 +75,112 @@ export default function Register() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen p-4">
-      <Spacer y={2} />
-      <Card isHoverable className="w-full max-w-md" radius="lg" shadow="lg">
-        <CardBody>
-          <h2>Registrar</h2>
-          <Spacer y={1} />
-          <Input
-            isClearable
-            variant="underlined"
-            fullWidth
-            label="Nome"
-            placeholder="Seu nome"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
-          <Spacer y={1} />
-          <Input
-            isClearable
-            variant="underlined"
-            fullWidth
-            label="Email"
-            placeholder="seuemail@exemplo.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Spacer y={1} />
-          <Input
-            fullWidth
-            isClearable
-            className="text-gray-700"
-            endContent={
-              senha && (
-                <FaTimesCircle
-                  className="text-xl text-gray-400 cursor-pointer flex-shrink-0"
-                  onClick={() => setSenha("")}
-                />
-              )
-            }
-            label="Senha"
-            placeholder="Sua senha"
-            startContent={
-              <FaLock className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
-            }
-            type="password"
-            value={senha}
-            variant="underlined"
-            onChange={(e) => setSenha(e.target.value)}
-          />
-          <Spacer y={1} />
-          <Input
-            fullWidth
-            isClearable
-            className="text-gray-700"
-            endContent={
-              confirmarSenha && (
-                <FaTimesCircle
-                  className="text-xl text-gray-400 cursor-pointer flex-shrink-0"
-                  onClick={() => setConfirmarSenha("")}
-                />
-              )
-            }
-            label="Senha"
-            placeholder="Sua senha"
-            startContent={
-              <FaLock className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
-            }
-            type="password"
-            value={confirmarSenha}
-            variant="underlined"
-            onChange={(e) => setConfirmarSenha(e.target.value)}
-          />
+    <div className="flex h-full w-full">
+      <div className="hidden md:flex w-1/2 justify-center items-center">
+        <span className="font-bold ">
+          <span className={title({ color: "violet" })}>Feed</span>
+          <span className={title()}>Back</span>
+        </span>
+      </div>
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-6">
+        <Card isHoverable className="w-full max-w-md" radius="lg" shadow="lg">
+          <CardBody className="bg-black">
+            <h2>Registrar</h2>
+            <Spacer y={1} />
+            <Input
+              isClearable
+              variant="bordered"
+              fullWidth
+              label="Nome"
+              placeholder="Seu nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+            <Spacer y={1} />
+            <Input
+              isClearable
+              variant="bordered"
+              fullWidth
+              label="Email"
+              placeholder="seuemail@exemplo.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Spacer y={1} />
+            <Input
+              fullWidth
+              isClearable
+              className="text-gray-300"
+              endContent={
+                senha && (
+                  <FaTimesCircle
+                    className="text-xl text-gray-400 cursor-pointer flex-shrink-0"
+                    onClick={() => setSenha("")}
+                  />
+                )
+              }
+              label="Senha"
+              placeholder="Sua senha"
+              startContent={
+                <FaLock className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
+              }
+              type="password"
+              value={senha}
+              variant="bordered"
+              onChange={(e) => setSenha(e.target.value)}
+            />
+            <Spacer y={1} />
+            <Input
+              fullWidth
+              isClearable
+              className="text-gray-300"
+              endContent={
+                confirmarSenha && (
+                  <FaTimesCircle
+                    className="text-xl text-gray-400 cursor-pointer flex-shrink-0"
+                    onClick={() => setConfirmarSenha("")}
+                  />
+                )
+              }
+              label="Senha"
+              placeholder="Sua senha"
+              startContent={
+                <FaLock className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
+              }
+              type="password"
+              value={confirmarSenha}
+              variant="bordered"
+              onChange={(e) => setConfirmarSenha(e.target.value)}
+            />
 
-          {error && (
-            <>
-              <Spacer y={0.5} />
-              <p>{error}</p>
-            </>
-          )}
-          {success && (
-            <>
-              <Spacer y={0.5} />
-              <p>{success}</p>
-            </>
-          )}
-          <Spacer y={1} />
-          <Button
-            onClick={handleRegister}
-            disabled={senha !== confirmarSenha}
-            variant="solid" // Utilize a variante desejada
-            color="primary" // Utilize a cor desejada
-          >
-            Registrar
-          </Button>
-          <Spacer y={1} />
-          <p>
-            Já tem uma conta? <Link href="/login">Login</Link>
-          </p>
-        </CardBody>
-      </Card>
+            {error && (
+              <>
+                <Spacer y={0.5} />
+                <p>{error}</p>
+              </>
+            )}
+            {success && (
+              <>
+                <Spacer y={0.5} />
+                <p>{success}</p>
+              </>
+            )}
+            <Spacer y={1} />
+            <Button
+              onClick={handleRegister}
+              disabled={senha !== confirmarSenha}
+              variant="solid"
+              color="primary"
+            >
+              Registrar
+            </Button>
+            <Spacer y={1} />
+            <p>
+              Já tem uma conta? <Link href="/login">Login</Link>
+            </p>
+          </CardBody>
+        </Card>
+      </div>
       <Spacer y={2} />
     </div>
   );

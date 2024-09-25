@@ -14,7 +14,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { FaEnvelope, FaLock, FaTimesCircle } from "react-icons/fa";
-
+import { title } from "@/components/primitives";
 import { AuthContext } from "../context/AuthContext";
 
 interface LoginResponse {
@@ -38,7 +38,7 @@ export default function Login() {
   const handleLogin = async () => {
     if (!email || !senha) {
       setError("Por favor, preencha todos os campos.");
-
+      setSuccess("");
       return;
     }
 
@@ -58,6 +58,7 @@ export default function Login() {
 
       if (res.ok) {
         setSuccess("Login realizado com sucesso! Redirecionando...");
+        setError("");
         login(data.token, data.user);
         setTimeout(() => {
           router.push("/dashboard");
@@ -67,103 +68,118 @@ export default function Login() {
         setSuccess("");
       }
     } catch (err) {
+      console.error(err);
       setError("Erro de conexão.");
       setSuccess("");
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen p-4">
-      <Card isHoverable className="w-full max-w-md" radius="lg" shadow="lg">
-        <CardHeader>
-          <h2 className="text-2xl font-semibold text-center text-gray-300">
-            Login
-          </h2>
-        </CardHeader>
-        <CardBody>
-          <Spacer y={1} />
-          <Input
-            fullWidth
-            isClearable
-            className="text-gray-700"
-            endContent={
-              email && (
-                <FaTimesCircle
-                  className="text-xl text-gray-400 cursor-pointer flex-shrink-0"
-                  onClick={() => setEmail("")}
-                />
-              )
-            }
-            label="Email"
-            placeholder="seuemail@exemplo.com"
-            startContent={
-              <FaEnvelope className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
-            }
-            value={email}
-            variant="underlined"
-            onChange={(e) => setEmail(e.target.value)}
-          />
+    <div className="flex h-full w-full">
+      {/* Seção Esquerda */}
+      <div className="hidden md:flex w-1/2 justify-center items-center">
+        <span className="font-bold ">
+          <span className={title({ color: "violet" })}>Feed</span>
+          <span className={title()}>Back</span>
+        </span>
+      </div>
 
-          <Spacer y={1} />
+      {/* Seção Direita */}
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-6">
+        <Card
+          isHoverable
+          className="w-full bg-black max-w-md"
+          radius="lg"
+          shadow="lg"
+        >
+          <CardHeader className="bg-black">
+            <h2 className="flex text-2xl font-semibold ext-gray-300">Login</h2>
+          </CardHeader>
+          <CardBody className="bg-black h-full">
+            <Spacer y={1} />
+            <Input
+              fullWidth
+              type="email"
+              isClearable
+              className="text-gray-300"
+              endContent={
+                email && (
+                  <FaTimesCircle
+                    className="text-xl text-gray-400 cursor-pointer flex-shrink-0"
+                    onClick={() => setEmail("")}
+                  />
+                )
+              }
+              label="Email"
+              placeholder="seuemail@exemplo.com"
+              startContent={
+                <FaEnvelope className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
+              }
+              value={email}
+              variant="bordered"
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-          {/* Campo Senha */}
-          <Input
-            fullWidth
-            isClearable
-            className="text-gray-700"
-            endContent={
-              senha && (
-                <FaTimesCircle
-                  className="text-xl text-gray-400 cursor-pointer flex-shrink-0"
-                  onClick={() => setSenha("")}
-                />
-              )
-            }
-            label="Senha"
-            placeholder="Sua senha"
-            startContent={
-              <FaLock className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
-            }
-            type="password"
-            value={senha}
-            variant="underlined"
-            onChange={(e) => setSenha(e.target.value)}
-          />
-          {error && (
-            <>
-              <Spacer y={0.5} />
-              <p className="text-red-500 text-center">{error}</p>
-            </>
-          )}
-          {success && (
-            <>
-              <Spacer y={0.5} />
-              <p className="text-green-500 text-center">{success}</p>
-            </>
-          )}
+            <Spacer y={6} />
 
-          <Spacer y={1} />
+            {/* Campo Senha */}
+            <Input
+              fullWidth
+              isClearable
+              className="text-gray-300"
+              endContent={
+                senha && (
+                  <FaTimesCircle
+                    className="text-xl text-gray-400 cursor-pointer flex-shrink-0"
+                    onClick={() => setSenha("")}
+                  />
+                )
+              }
+              label="Senha"
+              placeholder="Sua senha"
+              startContent={
+                <FaLock className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
+              }
+              type="password"
+              value={senha}
+              variant="bordered"
+              onChange={(e) => setSenha(e.target.value)}
+            />
+            {error && (
+              <>
+                <Spacer y={0.5} />
+                <p className="text-red-500 text-center">{error}</p>
+              </>
+            )}
+            {success && (
+              <>
+                <Spacer y={0.5} />
+                <p className="text-green-500 text-center">{success}</p>
+              </>
+            )}
 
-          <Button
-            fullWidth
-            color="primary"
-            disabled={!email || !senha}
-            size="md"
-            variant="solid"
-            onClick={handleLogin}
-          >
-            Login
-          </Button>
-        </CardBody>
-        <CardFooter>
-          <p className="text-center text-gray-600">
-            Não tem uma conta?{" "}
-            <Link className="text-blue-600 hover:underline" href="/register">
-              Registrar
-            </Link>
-          </p>
-        </CardFooter>
-      </Card>
+            <Spacer y={6} />
+
+            <Button
+              color="secondary"
+              disabled={!email || !senha}
+              size="md"
+              variant="bordered"
+              onClick={handleLogin}
+            >
+              Login
+            </Button>
+          </CardBody>
+          <CardFooter className="bg-black">
+            <p className="text-center text-gray-300">
+              Não tem uma conta?{" "}
+              <Link className="text-blue-600 hover:underline" href="/register">
+                Registrar
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
     </div>
   );
 }
