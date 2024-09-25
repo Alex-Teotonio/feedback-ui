@@ -4,6 +4,7 @@
 import { Navbar, NavbarBrand, NavbarContent, Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
+
 import { AuthContext } from "../context/AuthContext";
 
 export default function Header() {
@@ -11,7 +12,7 @@ export default function Header() {
   const { token, user, logout } = useContext(AuthContext);
 
   return (
-    <Navbar isBordered position="sticky" maxWidth="lg">
+    <Navbar isBordered maxWidth="lg" position="sticky">
       <NavbarBrand>
         <div>TrabalhoBD2</div>
       </NavbarBrand>
@@ -19,24 +20,24 @@ export default function Header() {
         {token ? (
           <>
             <span>Bem-vindo, {user?.nome}</span>
-            <Button variant="flat" color="danger" size="md" onClick={logout}>
+            <Button color="danger" size="md" variant="flat" onClick={logout}>
               Logout
             </Button>
           </>
         ) : (
           <>
             <Button
-              variant="flat"
               color="primary"
               size="md"
+              variant="flat"
               onClick={() => router.push("/login")}
             >
               Login
             </Button>
             <Button
-              variant="flat"
               color="secondary"
               size="md"
+              variant="flat"
               onClick={() => router.push("/register")}
             >
               Registrar

@@ -3,6 +3,7 @@
 
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { useRouter } from "next/navigation";
+
 import { AuthContextType, User } from "../types";
 
 export const AuthContext = createContext<AuthContextType>({

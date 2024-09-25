@@ -3,8 +3,9 @@
 "use client";
 
 import React, { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
 import { Button, Textarea, Spinner } from "@nextui-org/react";
+
+import { AuthContext } from "../context/AuthContext";
 
 interface AddComentarioFormProps {
   feedbackId: string;
@@ -24,6 +25,7 @@ const AddComentarioForm = ({
     e.preventDefault();
     if (texto.trim() === "") {
       setError("O comentário não pode estar vazio.");
+
       return;
     }
 
@@ -40,7 +42,7 @@ const AddComentarioForm = ({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ texto }),
-        }
+        },
       );
 
       if (res.ok) {
@@ -48,6 +50,7 @@ const AddComentarioForm = ({
         onComentarioAdded();
       } else {
         const errorData = await res.json();
+
         setError(errorData.message || "Erro ao adicionar comentário.");
       }
     } catch (err: any) {
@@ -59,16 +62,16 @@ const AddComentarioForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
       <Textarea
+        required
         label="Adicionar Comentário"
         placeholder="Escreva seu comentário aqui..."
         value={texto}
         onChange={(e) => setTexto(e.target.value)}
-        required
       />
       {error && <span className="text-red-500 text-sm">{error}</span>}
-      <Button type="submit" disabled={isSubmitting}>
+      <Button disabled={isSubmitting} type="submit">
         {isSubmitting ? <Spinner size="sm" /> : "Enviar Comentário"}
       </Button>
     </form>

@@ -2,8 +2,6 @@
 "use client";
 
 import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import ProtectedRoute from "../../components/ProtectedRoute";
 import {
   Spinner,
   Button,
@@ -12,6 +10,9 @@ import {
   useDisclosure,
   ModalContent,
 } from "@nextui-org/react";
+
+import { AuthContext } from "../context/AuthContext";
+import ProtectedRoute from "../../components/ProtectedRoute";
 import FeedbackCard from "../components/FeedbackCard";
 import AddFeedbackForm from "../components/AddFeedbackForm";
 
@@ -47,14 +48,16 @@ export default function Dashboard() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (res.ok) {
         const data: Feedback[] = await res.json();
+
         setFeedbacks(data);
       } else {
         const errorData = await res.json();
+
         setError(errorData.message || "Erro ao obter feedbacks.");
       }
     } catch (err) {
@@ -75,17 +78,20 @@ export default function Dashboard() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
+
       if (res.ok) {
         const updatedFeedback: Feedback = await res.json();
+
         setFeedbacks((prevFeedbacks) =>
           prevFeedbacks.map((fb) =>
-            fb._id === id ? { ...fb, curtidas: updatedFeedback.curtidas } : fb
-          )
+            fb._id === id ? { ...fb, curtidas: updatedFeedback.curtidas } : fb,
+          ),
         );
       } else {
         const errorData = await res.json();
+
         throw new Error(errorData.message || "Erro ao curtir feedback.");
       }
     } catch (err: any) {
@@ -97,12 +103,14 @@ export default function Dashboard() {
   const handleDelete = async (id: string) => {
     if (!id) {
       console.error("Feedback ID is undefined.");
+
       return;
     }
 
     const confirmDelete = confirm(
-      "Tem certeza que deseja deletar este feedback?"
+      "Tem certeza que deseja deletar este feedback?",
     );
+
     if (!confirmDelete) return;
 
     try {
@@ -114,17 +122,19 @@ export default function Dashboard() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (res.ok) {
         const result = await res.json();
+
         setFeedbacks((prevFeedbacks) =>
-          prevFeedbacks.filter((fb) => fb._id !== id)
+          prevFeedbacks.filter((fb) => fb._id !== id),
         );
         alert("Feedback deletado com sucesso!");
       } else {
         const errorData = await res.json();
+
         throw new Error(errorData.message || "Erro ao deletar feedback.");
       }
     } catch (err: any) {
@@ -144,29 +154,29 @@ export default function Dashboard() {
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold">Meus Feedbacks</h1>
           <Button
-            onClick={fetchFeedbacks}
+            color="default"
             disabled={loading}
             variant="faded"
-            color="default"
+            onClick={fetchFeedbacks}
           >
             Atualizar
           </Button>
-          <Button onPress={onOpen} color="primary">
+          <Button color="primary" onPress={onOpen}>
             Adicionar Feedback
           </Button>
 
           <Modal
             isOpen={isOpen}
-            onOpenChange={onOpenChange}
             placement="top-center"
+            onOpenChange={onOpenChange}
           >
             <ModalContent>
               {(onClose) => (
                 <>
                   <ModalBody>
                     <AddFeedbackForm
-                      onFeedbackAdded={fetchFeedbacks}
                       onCloseFeedback={onClose}
+                      onFeedbackAdded={fetchFeedbacks}
                     />
                   </ModalBody>
                 </>
@@ -191,9 +201,9 @@ export default function Dashboard() {
               <FeedbackCard
                 key={feedback._id}
                 feedback={feedback}
+                onDelete={handleDelete}
                 onFetchFeedback={fetchFeedbacks}
                 onLike={handleLike}
-                onDelete={handleDelete}
               />
             ))}
           </div>

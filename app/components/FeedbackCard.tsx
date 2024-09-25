@@ -14,13 +14,15 @@ import {
   useDisclosure,
   ModalContent,
 } from "@nextui-org/react";
-import { HeartIcon } from "./HeartIcon";
 import { useState, useEffect, useContext } from "react";
 import { FaTrash, FaPen } from "react-icons/fa";
+
+import { AuthContext } from "../context/AuthContext";
+
+import { HeartIcon } from "./HeartIcon";
 import EditFeedbackForm from "./EditFeedbackForm";
 import ComentarioCard from "./ComentarioCard";
 import AddComentarioForm from "./AddComentarioForm";
-import { AuthContext } from "../context/AuthContext";
 
 interface Feedback {
   _id: string;
@@ -115,14 +117,16 @@ const FeedbackCard = ({
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       if (res.ok) {
         const data: Comentario[] = await res.json();
+
         setComentarios(data);
       } else {
         const errorData = await res.json();
+
         setErrorComentarios(errorData.message || "Erro ao obter comentários.");
       }
     } catch (err) {
@@ -152,12 +156,14 @@ const FeedbackCard = ({
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
+
       if (res.ok) {
         fetchComentarios();
       } else {
         const errorData = await res.json();
+
         alert(errorData.message || "Erro ao deletar comentário.");
       }
     } catch (error: any) {
@@ -165,27 +171,28 @@ const FeedbackCard = ({
       alert(error.message || "Erro ao deletar comentário.");
     }
   };
+
   return (
-    <Card shadow="sm" className="h-full">
+    <Card className="h-full" shadow="sm">
       {user?._id === feedback.id_usuario && (
         <div className="flex justify-end mt-2 mr-2">
           <Button
             isIconOnly
-            size="sm"
-            color="default"
             aria-label="Editar"
-            onPress={onOpen}
             className="mr-2"
+            color="default"
+            size="sm"
+            onPress={onOpen}
           >
             <FaPen />
           </Button>
           <Button
             isIconOnly
-            size="sm"
-            color="default"
             aria-label="Deletar"
-            onClick={handleDelete}
+            color="default"
             disabled={isDeleting}
+            size="sm"
+            onClick={handleDelete}
           >
             {isDeleting ? <Spinner size="lg" /> : <FaTrash />}
           </Button>
@@ -205,10 +212,10 @@ const FeedbackCard = ({
               <div key={index} className="mb-2">
                 {item.type === "photo" ? (
                   <img
-                    src={`http://localhost:3005${sanitizeUrl(item.url)}`}
                     alt={`Mídia ${index + 1}`}
                     className="w-48
                      h-auto rounded max-w-md max-h-48 object-cover"
+                    src={`http://localhost:3005${sanitizeUrl(item.url)}`}
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
                         "/fallback-image.png";
@@ -216,9 +223,9 @@ const FeedbackCard = ({
                   />
                 ) : (
                   <video
-                    src={`http://localhost:3005${sanitizeUrl(item.url)}`}
                     controls
                     className="w-full h-auto rounded max-w-md max-h-48 object-cover"
+                    src={`http://localhost:3005${sanitizeUrl(item.url)}`}
                   />
                 )}
               </div>
@@ -257,12 +264,12 @@ const FeedbackCard = ({
         <div className="flex items-center mt-2 sm:mt-0">
           <Button
             isIconOnly
-            color="danger"
-            size="sm"
             aria-label="Curtir"
-            onClick={handleLike}
-            disabled={isLiking}
             className="mr-2"
+            color="danger"
+            disabled={isLiking}
+            size="sm"
+            onClick={handleLike}
           >
             {isLiking ? <Spinner size="lg" /> : <HeartIcon filled={true} />}
           </Button>
@@ -278,15 +285,15 @@ const FeedbackCard = ({
           {message.text}
         </div>
       )}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+      <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
               <ModalBody>
                 <EditFeedbackForm
                   feedback={feedback}
-                  onFeedbackUpdated={onFetchFeedback}
                   onCloseFeedback={onClose}
+                  onFeedbackUpdated={onFetchFeedback}
                 />
               </ModalBody>
             </>

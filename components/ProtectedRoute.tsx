@@ -3,6 +3,7 @@
 
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
+
 import { AuthContext } from "../app/context/AuthContext";
 
 interface ProtectedRouteProps {

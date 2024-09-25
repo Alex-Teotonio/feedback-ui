@@ -2,8 +2,9 @@
 "use client";
 
 import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
 import { Button, Input, Textarea, Spacer } from "@nextui-org/react";
+
+import { AuthContext } from "../context/AuthContext";
 
 interface AddFeedbackFormProps {
   onFeedbackAdded: () => void;
@@ -30,11 +31,13 @@ const AddFeedbackForm = ({
     if (!loja || !produto || !titulo || !descricao) {
       setError("Por favor, preencha todos os campos.");
       setLoading(false);
+
       return;
     }
 
     const formData = new FormData();
     const id_usuario = user?._id;
+
     formData.append("loja", loja);
     formData.append("produto", produto);
     formData.append("titulo", titulo);
@@ -56,11 +59,12 @@ const AddFeedbackForm = ({
             Authorization: `Bearer ${token}`,
           },
           body: formData,
-        }
+        },
       );
 
       if (res.ok) {
         const data = await res.json();
+
         console.log("Feedback adicionado com sucesso:", data);
         setLoja("");
         setProduto("");
@@ -71,6 +75,7 @@ const AddFeedbackForm = ({
         onCloseFeedback();
       } else {
         const errorData = await res.json();
+
         setError(errorData.message || "Erro ao adicionar feedback.");
       }
     } catch (err: any) {
@@ -87,8 +92,8 @@ const AddFeedbackForm = ({
 
   return (
     <form
-      onSubmit={handleSubmit}
       className="max-w-md mx-auto p-4 rounded shadow"
+      onSubmit={handleSubmit}
     >
       <h2 className="text-2xl font-bold mb-4">Adicionar Feedback</h2>
 
@@ -96,41 +101,41 @@ const AddFeedbackForm = ({
 
       <Input
         isClearable
-        variant="underlined"
+        required
+        className="mb-4"
         placeholder="Loja"
         value={loja}
+        variant="underlined"
         onChange={(e) => setLoja(e.target.value)}
-        required
-        className="mb-4"
       />
 
       <Input
         isClearable
-        variant="underlined"
+        required
+        className="mb-4"
         placeholder="Produto"
         value={produto}
+        variant="underlined"
         onChange={(e) => setProduto(e.target.value)}
-        required
-        className="mb-4"
       />
 
       <Input
         isClearable
-        variant="underlined"
-        placeholder="Título"
-        value={titulo}
-        onChange={(e) => setTitulo(e.target.value)}
         required
         className="mb-4"
+        placeholder="Título"
+        value={titulo}
+        variant="underlined"
+        onChange={(e) => setTitulo(e.target.value)}
       />
 
       <Textarea
-        variant="underlined"
-        placeholder="Descrição"
-        value={descricao}
-        onChange={(e) => setDescricao(e.target.value)}
         required
         className="mb-4"
+        placeholder="Descrição"
+        value={descricao}
+        variant="underlined"
+        onChange={(e) => setDescricao(e.target.value)}
       />
 
       <div className="mb-4">
@@ -141,12 +146,8 @@ const AddFeedbackForm = ({
           Upload de Mídia
         </label>
         <input
-          type="file"
-          id="media"
-          name="media"
           multiple
           accept="image/*,video/*"
-          onChange={handleFileChange}
           className="block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4
             file:rounded file:border-0
@@ -154,12 +155,16 @@ const AddFeedbackForm = ({
             file:bg-blue-50 file:text-blue-700
             hover:file:bg-blue-100
           "
+          id="media"
+          name="media"
+          type="file"
+          onChange={handleFileChange}
         />
       </div>
 
       <Spacer y={1} />
 
-      <Button type="submit" disabled={loading} color="success">
+      <Button color="success" disabled={loading} type="submit">
         {loading ? "Enviando..." : "Adicionar Feedback"}
       </Button>
     </form>

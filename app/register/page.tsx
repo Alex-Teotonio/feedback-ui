@@ -12,9 +12,10 @@ import {
   CardBody,
   CardFooter,
 } from "@nextui-org/react";
-import { AuthContext } from "../context/AuthContext"; // Ajuste o caminho conforme a estrutura do seu projeto
 import Link from "next/link"; // Importação do Link do Next.js
 import { FaEnvelope, FaLock, FaTimesCircle } from "react-icons/fa"; // Importação dos ícones
+
+import { AuthContext } from "../context/AuthContext"; // Ajuste o caminho conforme a estrutura do seu projeto
 
 interface LoginResponse {
   token: string;
@@ -39,6 +40,7 @@ export default function Login() {
     // Validação básica
     if (!email || !senha) {
       setError("Por favor, preencha todos os campos.");
+
       return;
     }
 
@@ -53,7 +55,7 @@ export default function Login() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, senha }),
-        }
+        },
       );
 
       const data: LoginResponse = await res.json();
@@ -81,7 +83,7 @@ export default function Login() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-      <Card shadow="lg" radius="lg" isHoverable className="w-full max-w-md">
+      <Card isHoverable className="w-full max-w-md" radius="lg" shadow="lg">
         <CardHeader>
           <h2 className="text-2xl font-semibold text-center text-blue-600">
             Login
@@ -92,16 +94,9 @@ export default function Login() {
 
           {/* Campo Email */}
           <Input
-            isClearable
-            variant="underlined"
             fullWidth
-            label="Email"
-            placeholder="seuemail@exemplo.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            startContent={
-              <FaEnvelope className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
-            }
+            isClearable
+            className="text-gray-700"
             endContent={
               email && (
                 <FaTimesCircle
@@ -110,24 +105,23 @@ export default function Login() {
                 />
               )
             }
-            className="text-gray-700"
+            label="Email"
+            placeholder="seuemail@exemplo.com"
+            startContent={
+              <FaEnvelope className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
+            }
+            value={email}
+            variant="underlined"
+            onChange={(e) => setEmail(e.target.value)}
           />
 
           <Spacer y={1} />
 
           {/* Campo Senha */}
           <Input
-            type="password"
-            isClearable
-            variant="underlined"
             fullWidth
-            label="Senha"
-            placeholder="Sua senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            startContent={
-              <FaLock className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
-            }
+            isClearable
+            className="text-gray-700"
             endContent={
               senha && (
                 <FaTimesCircle
@@ -136,7 +130,15 @@ export default function Login() {
                 />
               )
             }
-            className="text-gray-700"
+            label="Senha"
+            placeholder="Sua senha"
+            startContent={
+              <FaLock className="text-xl text-gray-400 pointer-events-none flex-shrink-0" />
+            }
+            type="password"
+            value={senha}
+            variant="underlined"
+            onChange={(e) => setSenha(e.target.value)}
           />
 
           {/* Mensagens de Erro e Sucesso */}
@@ -157,12 +159,12 @@ export default function Login() {
 
           {/* Botão de Login */}
           <Button
-            onClick={handleLogin}
-            disabled={!email || !senha || loading}
-            variant="solid"
-            color="primary"
-            size="md"
             fullWidth
+            color="primary"
+            disabled={!email || !senha || loading}
+            size="md"
+            variant="solid"
+            onClick={handleLogin}
           >
             {loading ? "Carregando..." : "Login"}
           </Button>
@@ -170,7 +172,7 @@ export default function Login() {
         <CardFooter>
           <p className="text-center text-gray-600">
             Não tem uma conta?{" "}
-            <Link href="/register" className="text-blue-600 hover:underline">
+            <Link className="text-blue-600 hover:underline" href="/register">
               Registrar
             </Link>
           </p>

@@ -3,9 +3,10 @@
 "use client";
 
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
 import { FaTrash } from "react-icons/fa";
 import { Button, Spinner } from "@nextui-org/react";
+
+import { AuthContext } from "../context/AuthContext";
 
 interface Comentario {
   _id: string;
@@ -40,11 +41,11 @@ const ComentarioCard = ({ comentario, onDelete }: ComentarioCardProps) => {
         {comentario.id_usuario === user?._id && (
           <Button
             isIconOnly
-            size="sm"
-            color="danger"
             aria-label="Deletar Comentário"
-            onClick={handleDelete}
+            color="danger"
             disabled={isDeleting}
+            size="sm"
+            onClick={handleDelete}
           >
             {isDeleting ? <Spinner size="lg" /> : <FaTrash />}
           </Button>

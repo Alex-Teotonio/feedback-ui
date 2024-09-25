@@ -1,9 +1,10 @@
 // components/EditFeedbackForm.tsx
 "use client";
 
-import { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState, useContext } from "react";
 import { Button, Input, Textarea, Spacer } from "@nextui-org/react";
+
+import { AuthContext } from "../context/AuthContext";
 
 interface EditFeedbackFormProps {
   feedback: Feedback;
@@ -43,6 +44,7 @@ const EditFeedbackForm = ({
 
     try {
       const formData = new FormData();
+
       formData.append("loja", loja);
       formData.append("produto", produto);
       formData.append("titulo", titulo);
@@ -62,16 +64,18 @@ const EditFeedbackForm = ({
             Authorization: `Bearer ${token}`,
           },
           body: formData,
-        }
+        },
       );
 
       if (response.ok) {
         const { result } = await response.json();
+
         console.log(result);
         onFeedbackUpdated(result);
         onCloseFeedback();
       } else {
         const errorData = await response.json();
+
         setError(errorData.message || "Erro ao atualizar feedback.");
       }
     } catch (err: any) {
@@ -88,8 +92,8 @@ const EditFeedbackForm = ({
 
   return (
     <form
-      onSubmit={handleSubmit}
       className="max-w-md mx-auto p-4 rounded shadow"
+      onSubmit={handleSubmit}
     >
       <h2 className="text-2xl font-bold mb-4">Editar Feedback</h2>
 
@@ -97,41 +101,41 @@ const EditFeedbackForm = ({
 
       <Input
         isClearable
-        variant="underlined"
+        required
+        className="mb-4"
         placeholder="Loja"
         value={loja}
+        variant="underlined"
         onChange={(e) => setLoja(e.target.value)}
-        required
-        className="mb-4"
       />
 
       <Input
         isClearable
-        variant="underlined"
+        required
+        className="mb-4"
         placeholder="Produto"
         value={produto}
+        variant="underlined"
         onChange={(e) => setProduto(e.target.value)}
-        required
-        className="mb-4"
       />
 
       <Input
         isClearable
-        variant="underlined"
-        placeholder="Título"
-        value={titulo}
-        onChange={(e) => setTitulo(e.target.value)}
         required
         className="mb-4"
+        placeholder="Título"
+        value={titulo}
+        variant="underlined"
+        onChange={(e) => setTitulo(e.target.value)}
       />
 
       <Textarea
-        variant="underlined"
-        placeholder="Descrição"
-        value={descricao}
-        onChange={(e) => setDescricao(e.target.value)}
         required
         className="mb-4"
+        placeholder="Descrição"
+        value={descricao}
+        variant="underlined"
+        onChange={(e) => setDescricao(e.target.value)}
       />
 
       <div className="mb-4">
@@ -142,12 +146,8 @@ const EditFeedbackForm = ({
           Upload de Mídia (Opcional - Adicione novas mídias)
         </label>
         <input
-          type="file"
-          id="media"
-          name="media"
           multiple
           accept="image/*,video/*"
-          onChange={handleFileChange}
           className="block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4
             file:rounded file:border-0
@@ -155,6 +155,10 @@ const EditFeedbackForm = ({
             file:bg-blue-50 file:text-blue-700
             hover:file:bg-blue-100
           "
+          id="media"
+          name="media"
+          type="file"
+          onChange={handleFileChange}
         />
       </div>
 
@@ -162,14 +166,14 @@ const EditFeedbackForm = ({
 
       <div className="flex justify-end">
         <Button
+          className="mr-2"
+          color="danger"
           type="button"
           onPress={onCloseFeedback}
-          color="danger"
-          className="mr-2"
         >
           Cancelar
         </Button>
-        <Button type="submit" color="success" disabled={loading}>
+        <Button color="success" disabled={loading} type="submit">
           {loading ? "Atualizando..." : "Atualizar Feedback"}
         </Button>
       </div>
