@@ -12,6 +12,7 @@ import {
   Modal,
   useDisclosure,
   ModalContent,
+  Spacer,
 } from "@nextui-org/react";
 import { useState, useEffect, useContext } from "react";
 import { FaTrash, FaPen } from "react-icons/fa";
@@ -23,6 +24,13 @@ import EditFeedbackForm from "./EditFeedbackForm";
 import ComentarioCard from "./ComentarioCard";
 import AddComentarioForm from "./AddComentarioForm";
 
+interface Usuario {
+  id: string;
+  email: string;
+  senha: string;
+  nome: string;
+}
+
 interface Feedback {
   _id: string;
   titulo: string;
@@ -33,6 +41,7 @@ interface Feedback {
   midia: Array<{ url: string; type: string }>;
   id_usuario: string;
   createdAt: string;
+  usuario: Usuario;
 }
 
 interface Comentario {
@@ -172,38 +181,42 @@ const FeedbackCard = ({
 
   return (
     <Card className="h-full" shadow="sm">
-      {user?._id === feedback.id_usuario && (
-        <div className="flex justify-end mt-2 mr-2">
-          <Button
-            isIconOnly
-            aria-label="Editar"
-            className="mr-2"
-            color="default"
-            size="sm"
-            onPress={onOpen}
-          >
-            <FaPen />
-          </Button>
-          <Button
-            isIconOnly
-            aria-label="Deletar"
-            color="default"
-            disabled={isDeleting}
-            size="sm"
-            onClick={handleDelete}
-          >
-            {isDeleting ? <Spinner size="lg" /> : <FaTrash />}
-          </Button>
+      <CardHeader className="flex justify-between items-center">
+        <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between items-start gap-1">
+            <p className="text-xl font-semibold">{feedback.loja}</p>
+            <small className="text-sm">Author: {feedback.usuario.nome}</small>
+          </div>
+          <Spacer y={4}></Spacer>
+          <p className="text-lg font-semibold">{feedback.titulo}</p>
+          <Spacer y={2}></Spacer>
         </div>
-      )}
-      <CardHeader>
-        <div className="flex flex-col">
-          <p className="text-xl font-semibold">{feedback.loja}</p>
-          <p className="text-xl font-semibold">{feedback.titulo}</p>
-        </div>
+        {user?._id === feedback.id_usuario && (
+          <div className="flex space-x-2">
+            <Button
+              isIconOnly
+              aria-label="Editar"
+              color="default"
+              size="sm"
+              onPress={onOpen}
+            >
+              <FaPen />
+            </Button>
+            <Button
+              isIconOnly
+              aria-label="Deletar"
+              color="default"
+              disabled={isDeleting}
+              size="sm"
+              onClick={handleDelete}
+            >
+              {isDeleting ? <Spinner size="lg" /> : <FaTrash />}
+            </Button>
+          </div>
+        )}
       </CardHeader>
       <CardBody className="flex-grow">
-        <p>{feedback.descricao}</p>
+        <p className="text-sm">{feedback.descricao}</p>
         {feedback.midia && feedback.midia.length > 0 && (
           <div className="mt-4">
             {feedback.midia.map((item, index) => (

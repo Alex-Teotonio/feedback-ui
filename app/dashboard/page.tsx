@@ -155,7 +155,7 @@ export default function Dashboard() {
             <span className={title({ color: "violet", size: "sm" })}>Feed</span>
             <span className={title({ size: "sm" })}>Back</span>
           </span>
-          <div className="flex flex-wrap gap-4 items-center">
+          <div className="flex flex-wrap gap-4  items-center">
             <Button
               color="primary"
               disabled={loading}
@@ -208,7 +208,7 @@ export default function Dashboard() {
             Nenhum feedback encontrado.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4">
             {feedbacks.map((feedback) => (
               <FeedbackCard
                 key={feedback._id}
