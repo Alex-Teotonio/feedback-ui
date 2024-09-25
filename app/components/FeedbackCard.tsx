@@ -1,7 +1,6 @@
 // components/FeedbackCard.tsx
 
 "use client";
-
 import {
   Card,
   CardHeader,
@@ -70,7 +69,6 @@ const FeedbackCard = ({
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  // Estados para comentários
   const [comentarios, setComentarios] = useState<Comentario[]>([]);
   const [loadingComentarios, setLoadingComentarios] = useState<boolean>(true);
   const [errorComentarios, setErrorComentarios] = useState<string>("");
@@ -117,7 +115,7 @@ const FeedbackCard = ({
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
 
       if (res.ok) {
@@ -156,7 +154,7 @@ const FeedbackCard = ({
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       if (res.ok) {
