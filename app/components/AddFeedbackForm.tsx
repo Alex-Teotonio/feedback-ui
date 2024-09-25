@@ -58,7 +58,7 @@ const AddFeedbackForm = ({
 
     try {
       const res = await fetch(
-        "http://localhost:3005/api/feedback/addfeedback",
+        `${process.env.NEXT_PUBLIC_API_URL}/addfeedback`,
         {
           method: "POST",
           headers: {

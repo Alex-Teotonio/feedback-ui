@@ -36,7 +36,6 @@ export default function Login() {
   const [success, setSuccess] = useState<string>("");
 
   const handleLogin = async () => {
-    // Validação básica
     if (!email || !senha) {
       setError("Por favor, preencha todos os campos.");
 
@@ -45,14 +44,14 @@ export default function Login() {
 
     try {
       const res = await fetch(
-        "http://localhost:3005/api/feedback/usuarios/login",
+        `${process.env.NEXT_PUBLIC_API_URL}/usuarios/login`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, senha }),
-        },
+        }
       );
 
       const data: LoginResponse = await res.json();

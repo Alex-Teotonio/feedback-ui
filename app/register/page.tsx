@@ -12,10 +12,10 @@ import {
   CardBody,
   CardFooter,
 } from "@nextui-org/react";
-import Link from "next/link"; // Importação do Link do Next.js
-import { FaEnvelope, FaLock, FaTimesCircle } from "react-icons/fa"; // Importação dos ícones
+import Link from "next/link";
+import { FaEnvelope, FaLock, FaTimesCircle } from "react-icons/fa";
 
-import { AuthContext } from "../context/AuthContext"; // Ajuste o caminho conforme a estrutura do seu projeto
+import { AuthContext } from "../context/AuthContext";
 
 interface LoginResponse {
   token: string;
@@ -34,28 +34,27 @@ export default function Login() {
   const [senha, setSenha] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false); // Estado para loading
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleLogin = async () => {
-    // Validação básica
     if (!email || !senha) {
       setError("Por favor, preencha todos os campos.");
 
       return;
     }
 
-    setLoading(true); // Inicia o loading
+    setLoading(true);
 
     try {
       const res = await fetch(
-        "http://localhost:3005/api/feedback/usuarios/login",
+        `${process.env.NEXT_PUBLIC_API_URL}/usuarios/login`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, senha }),
-        },
+        }
       );
 
       const data: LoginResponse = await res.json();
@@ -63,10 +62,9 @@ export default function Login() {
       if (res.ok) {
         setSuccess("Login realizado com sucesso! Redirecionando...");
         setError("");
-        // Logar o usuário através do AuthContext
         login(data.token, data.user);
         setTimeout(() => {
-          router.push("/dashboard"); // Redirecionar para a página desejada
+          router.push("/dashboard");
         }, 2000);
       } else {
         setError(data.message || "Erro ao fazer login.");
@@ -77,7 +75,7 @@ export default function Login() {
       setError("Erro de conexão.");
       setSuccess("");
     } finally {
-      setLoading(false); // Finaliza o loading
+      setLoading(false);
     }
   };
 
@@ -92,7 +90,6 @@ export default function Login() {
         <CardBody>
           <Spacer y={1} />
 
-          {/* Campo Email */}
           <Input
             fullWidth
             isClearable
@@ -117,7 +114,6 @@ export default function Login() {
 
           <Spacer y={1} />
 
-          {/* Campo Senha */}
           <Input
             fullWidth
             isClearable
@@ -140,8 +136,6 @@ export default function Login() {
             variant="underlined"
             onChange={(e) => setSenha(e.target.value)}
           />
-
-          {/* Mensagens de Erro e Sucesso */}
           {error && (
             <>
               <Spacer y={0.5} />
