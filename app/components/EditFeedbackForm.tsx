@@ -57,20 +57,18 @@ const EditFeedbackForm = ({
 
       const id = feedback._id;
       const response = await fetch(
-        `http://localhost:3005/api/feedback/atualizar/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/atualizar/${id}`,
         {
           method: "PUT",
           headers: {
             Authorization: `Bearer ${token}`,
           },
           body: formData,
-        },
+        }
       );
 
       if (response.ok) {
         const { result } = await response.json();
-
-        console.log(result);
         onFeedbackUpdated(result);
         onCloseFeedback();
       } else {
