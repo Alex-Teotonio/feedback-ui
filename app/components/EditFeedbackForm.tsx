@@ -191,11 +191,6 @@ const EditFeedbackForm = ({
               {existingMedia.map((media, index) => {
                 // Construir a URL da imagem
                 const imageUrl = `${process.env.NEXT_PUBLIC_UPLOAD_URL}${sanitizeUrl(media.url)}`;
-                console.log(`Mídia [${index}]:`, {
-                  tipo: media.type,
-                  urlOriginal: media.url,
-                  urlConstruida: imageUrl,
-                });
 
                 return (
                   <div key={index} className="relative">
