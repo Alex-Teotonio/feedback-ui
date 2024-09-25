@@ -16,6 +16,13 @@ import ProtectedRoute from "../../components/ProtectedRoute";
 import FeedbackCard from "../components/FeedbackCard";
 import AddFeedbackForm from "../components/AddFeedbackForm";
 
+interface Usuario {
+  id: string;
+  email: string;
+  senha: string;
+  nome: string;
+}
+
 interface Feedback {
   _id: string;
   titulo: string;
@@ -26,6 +33,8 @@ interface Feedback {
   midia: [];
   id_usuario: string;
   createdAt: string;
+
+  usuario: Usuario;
 }
 
 export default function Dashboard() {
