@@ -62,7 +62,6 @@ export default function Dashboard() {
 
       if (res.ok) {
         const data: Feedback[] = await res.json();
-
         setFeedbacks(data);
       } else {
         const errorData = await res.json();

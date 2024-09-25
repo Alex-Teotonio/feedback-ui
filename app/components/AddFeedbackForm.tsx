@@ -84,7 +84,6 @@ const AddFeedbackForm = ({
         setError(errorData.message || "Erro ao adicionar feedback.");
       }
     } catch (err: any) {
-      console.error("Erro ao adicionar feedback:", err);
       setError("Erro de conexão.");
     } finally {
       setLoading(false);

@@ -41,7 +41,7 @@ interface Feedback {
   midia: Array<{ url: string; type: string }>;
   id_usuario: string;
   createdAt: string;
-  usuario: Usuario;
+  usuario?: Usuario | null;
 }
 
 interface Comentario {
@@ -185,7 +185,13 @@ const FeedbackCard = ({
         <div className="flex flex-col justify-between">
           <div className="flex flex-col justify-between items-start gap-1">
             <p className="text-xl font-semibold">{feedback.loja}</p>
-            <small className="text-sm">Author: {feedback.usuario.nome}</small>
+            <small className="text-sm">
+              {feedback.usuario && (
+                <small className="text-sm">
+                  Author: {feedback.usuario.nome}
+                </small>
+              )}
+            </small>
           </div>
           <Spacer y={4}></Spacer>
           <p className="text-lg font-semibold">{feedback.titulo}</p>
